@@ -89,14 +89,14 @@
       },
       created() {
          let uri = `http://localhost:8000/api/customers/${this.$route.params.id}`;
-         this.axios.get(uri).then((response) => {
+         this.axios.get(uri, {headers: { 'Authorization' : `Bearer ${process.env.MIX_REST_API_PASSPORT_KEY}`}}).then((response) => {
             this.customer = response.data.result;
          });
       },
       methods: {
          CustomerUpdate() {
             let uri = `http://localhost:8000/api/customers/update/${this.$route.params.id}`;
-            this.axios.post(uri, this.customer)
+            this.axios.post(uri, this.customer, {headers: { 'Authorization' : `Bearer ${process.env.MIX_REST_API_PASSPORT_KEY}`}})
             .then((response) => {
                this.$router.push({name: 'customers'});
             }).catch(error => {

@@ -2217,7 +2217,11 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     var uri = "http://localhost:8000/api/customers/".concat(this.$route.params.id);
-    this.axios.get(uri).then(function (response) {
+    this.axios.get(uri, {
+      headers: {
+        'Authorization': "Bearer ".concat("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDlhNzZmZGMzODc0YzM1ZDAzNzVkYWU0YjMwOWFmZjIyYzYwYmZhNDY1YWQzMWZlMzM0M2MxMGVlOWI3NTI5N2ZiMGM5YWRhMTRkMmZmYzAiLCJpYXQiOjE2MDg0Mjg3MTcsIm5iZiI6MTYwODQyODcxNywiZXhwIjoxNjM5OTY0NzE3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.iDWYehmoXPQeFQiYIZxtGVSQfh0DXTzO8duZB5Xikf0p400psFxz5KySv06QO_UYr9_YQILtInMavjii-bpce2ZhemnHSOh0dt7tzz7It4PnwYo4qL2r-55iziDcMFaqRFgwHeWqQTe952SgIGdv90LgBVUqsmrjE1JxIhvucz2dvPlvYWkQQFdhCByGMBXPFmg1uG5IIr1WCQ75XyEoyKJHl0wPRcXLeNXtOVf0Tq8Ux-aBzqfipYFw7ZDmVUAlkYoHKYVMCs4rMQ58hu-eDkLVBCWWnxRgCf-vVzW65PSh_jMsl3M-HNB5E_U6uPKT0BJ5AAKMJbCWtoOf27KyUOO30hQLNkNgW2uWN__RuUy0Nb2skWgiBDJka9ZuFccanRphtd2x5edb8CtZkjvk7QAJgrkxbhAni4k4B7UmTjE0S1vYeqjwduJT8I9uHPPqVAHMh46e2yfVpXgimjvBhuxY5CiMUK-dSFNo-WmkPG0v3z3eMnzWE2HKMYeU8w-5C_aSAUWHaNxTUluIucWboVwKROqyh7reFqq4DAq9KPNHbGS9Phnp9F_6QFkZBONU302_WbfrGts6-jhcBDAFQYaZd6NSPeQkN8bP8mO8R56jmMKgrBEnQR_6e1KKcWpWLV1_fLXYIMGth5BocFpGDa_v3pkr_ywj-6wD1yaV9oA")
+      }
+    }).then(function (response) {
       _this.customer = response.data.result;
     });
   },
@@ -2226,7 +2230,11 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       var uri = "http://localhost:8000/api/customers/update/".concat(this.$route.params.id);
-      this.axios.post(uri, this.customer).then(function (response) {
+      this.axios.post(uri, this.customer, {
+        headers: {
+          'Authorization': "Bearer ".concat("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDlhNzZmZGMzODc0YzM1ZDAzNzVkYWU0YjMwOWFmZjIyYzYwYmZhNDY1YWQzMWZlMzM0M2MxMGVlOWI3NTI5N2ZiMGM5YWRhMTRkMmZmYzAiLCJpYXQiOjE2MDg0Mjg3MTcsIm5iZiI6MTYwODQyODcxNywiZXhwIjoxNjM5OTY0NzE3LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.iDWYehmoXPQeFQiYIZxtGVSQfh0DXTzO8duZB5Xikf0p400psFxz5KySv06QO_UYr9_YQILtInMavjii-bpce2ZhemnHSOh0dt7tzz7It4PnwYo4qL2r-55iziDcMFaqRFgwHeWqQTe952SgIGdv90LgBVUqsmrjE1JxIhvucz2dvPlvYWkQQFdhCByGMBXPFmg1uG5IIr1WCQ75XyEoyKJHl0wPRcXLeNXtOVf0Tq8Ux-aBzqfipYFw7ZDmVUAlkYoHKYVMCs4rMQ58hu-eDkLVBCWWnxRgCf-vVzW65PSh_jMsl3M-HNB5E_U6uPKT0BJ5AAKMJbCWtoOf27KyUOO30hQLNkNgW2uWN__RuUy0Nb2skWgiBDJka9ZuFccanRphtd2x5edb8CtZkjvk7QAJgrkxbhAni4k4B7UmTjE0S1vYeqjwduJT8I9uHPPqVAHMh46e2yfVpXgimjvBhuxY5CiMUK-dSFNo-WmkPG0v3z3eMnzWE2HKMYeU8w-5C_aSAUWHaNxTUluIucWboVwKROqyh7reFqq4DAq9KPNHbGS9Phnp9F_6QFkZBONU302_WbfrGts6-jhcBDAFQYaZd6NSPeQkN8bP8mO8R56jmMKgrBEnQR_6e1KKcWpWLV1_fLXYIMGth5BocFpGDa_v3pkr_ywj-6wD1yaV9oA")
+        }
+      }).then(function (response) {
         _this2.$router.push({
           name: 'customers'
         });
