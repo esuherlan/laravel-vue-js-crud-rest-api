@@ -6,89 +6,152 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\CustomerResource;
 
 class CustomerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::latest()->get();
         return response([
-            'status' => [
-                'code' => '',
-                'response' => '',
-                'message' => 'Retrieved successfully'
-            ],
-            'result' => CustomerResource::collection($customers)
+        'success' => true,
+          'message' => 'List of Customers',
+          'result' => $customers
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $data = $request->all();
-
-        $validator = Validator::make($data, [
-            'name' => 'required|max:100',
-            'password' => 'required',
-            'email' => 'required',
-            'gender' => 'required',
-            'is_married' => 'required',
-            'address' => 'required'
+        $validator = Validator::make($request->all(), [
+          'name'     => 'required',
+          'email'   => 'required',
+          'password'   => 'required',
+          'gender'   => 'required',
+          'is_married'   => 'required',
+          'address'   => 'required',
+        ],
+        [
+          'name.required' => 'Please enter your name.',
+          'email.required' => 'Please enter your email.',
+          'password.required' => 'Please enter your password.',
+          'gender.required' => 'Please enter your gender.',
+          'is_married.required' => 'Please enter your status.',
+          'address.required' => 'Please enter your address.',
         ]);
 
         if($validator->fails()) {
-            return response(['error' => $validator->errors(), 'Validation Error']);
+          return response()->json([
+                'success' => false,
+                'message' => 'Please fill in the blank fields.',
+                'result'    => $validator->errors()
+          ],400);
+       } else {
+          $customer = Customer::create([
+                'name'          => $request->input('name'),
+                'email'         => $request->input('email'),
+                'password'      => $request->input('password'),
+                'gender'        => $request->input('gender'),
+                'is_married'    => $request->input('is_married'),
+                'address'       => $request->input('address')
+          ]);
+
+
+          if($customer) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Customer data saved successfully.',
+                ], 200);
+          } else {
+             return response()->json([
+                'success' => false,
+                'message' => 'Customer data failed to save.',
+             ], 400);
+          }
         }
-
-        $customer = Customer::create($data);
-
-        return response([
-            'customer' => new CustomerResource($customer),
-            'message' => 'Created successfully'], 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Customer $customer)
-    {
-        //
-    }
+   public function show($id)
+   {
+      $customer = Customer::whereId($id)->first();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Customer $customer)
-    {
-        //
-    }
+      if($customer) {
+         return response()->json([
+            'success' => true,
+            'message' => 'Detail of Customer.',
+            'result'  => $customer
+         ], 200);
+      } else {
+         return response()->json([
+            'success' => false,
+            'message' => 'No Customer found.',
+            'data'    => ''
+         ], 404);
+      }
+   }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Customer $customer)
-    {
-        //
-    }
+   public function update(Request $request)
+   {
+      $validator = Validator::make($request->all(), [
+         'name'     => 'required',
+         'email'   => 'required',
+         'password'   => 'required',
+         'gender'   => 'required',
+         'is_married'   => 'required',
+         'address'   => 'required',
+      ],
+      [
+         'name.required' => 'Please enter your name.',
+         'email.required' => 'Please enter your email.',
+         'password.required' => 'Please enter your password.',
+         'gender.required' => 'Please enter your gender.',
+         'is_married.required' => 'Please enter your status.',
+         'address.required' => 'Please enter your address.',
+      ]);
+
+      if($validator->fails()) {
+         return response()->json([
+            'success' => false,
+            'message' => 'Please fill in the blank fields.',
+            'result'  => $validator->errors()
+         ],400);
+      } else {
+         $customer = Customer::whereId($request->input('id'))->update([
+            'name'         => $request->input('name'),
+            'email'        => $request->input('email'),
+            'password'     => $request->input('password'),
+            'gender'       => $request->input('gender'),
+            'is_married'   => $request->input('is_married'),
+            'address'      => $request->input('address')
+         ]);
+
+         if($customer) {
+            return response()->json([
+               'success' => true,
+               'message' => 'Customer data updated successfully.',
+            ], 200);
+         } else {
+            return response()->json([
+              'success' => false,
+              'message' => 'Customer data failed to update.',
+            ], 500);
+         }
+      }
+   }
+
+   public function destroy($id)
+   {
+      $customer = Customer::findOrFail($id);
+      $customer->delete();
+
+      if($customer) {
+         return response()->json([
+            'success' => true,
+            'message' => 'Customer data deleted successfully.',
+         ], 200);
+      } else {
+         return response()->json([
+            'success' => false,
+            'message' => 'Customer data failed to delete.',
+         ], 500);
+      }
+   }
 }
