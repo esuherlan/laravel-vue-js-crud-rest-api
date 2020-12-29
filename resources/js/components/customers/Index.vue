@@ -53,7 +53,7 @@
       },
       methods: {
          CustomerDelete(id, index) {
-            let uri = `${process.env.MIX_API_URL}api/customers/${id}`;
+            let uri = `${process.env.MIX_API_URL}api/customers/delete/${id}`;
             this.axios.delete(uri, {headers: { 'Authorization' : `Bearer ${process.env.MIX_REST_API_PASSPORT_KEY}`}})
             .then(response => {
                this.customers.splice(index, 1);

@@ -88,7 +88,7 @@
          }
       },
       created() {
-         let uri = `http://localhost:8000/api/customers/${this.$route.params.id}`;
+         let uri = `http://localhost:8000/api/customers/detail/${this.$route.params.id}`;
          this.axios.get(uri, {headers: { 'Authorization' : `Bearer ${process.env.MIX_REST_API_PASSPORT_KEY}`}}).then((response) => {
             this.customer = response.data.result;
          });
